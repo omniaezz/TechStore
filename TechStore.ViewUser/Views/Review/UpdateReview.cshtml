@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "UpdateReview";
+    Layout = null;
+
+}
+
+<h1>@Localizer["UpdateReview"]</h1>
+
+@model TechStore.Dtos.ReviewDtos.CreateOrUpdateReviewDto
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateReview" asp-controller="Review" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" />
+            </div>
+           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class="form-control" />
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" hidden>
+                <label asp-for="ProductId" class="control-label"></label>
+                <input asp-for="ProductId" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label dir="auto" class="control-label">@Localizer["Comment"]</label>
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" value="@Model.Comment"/>
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label dir="auto" class="control-label">@Localizer["Rating"]</label>
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" value="@Model.Rating" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@Localizer["Send"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<span>
+    <form asp-action="Index" asp-controller="Home">
+        <button type="submit" class="btn  btn-block " style="max-width:auto">@Localizer["BacktoList"]</button>
+    </form>
+</span>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

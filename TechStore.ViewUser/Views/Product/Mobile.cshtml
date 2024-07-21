@@ -1,0 +1,238 @@
+﻿
+@* @{
+    ViewData["Title"] = "Mobile";
+}
+
+<h1>Mobile</h1>
+<div class="container">
+    <div class="row">
+       
+        <div class="col-md-4">
+            @using (Html.BeginForm("Filter", "Product", FormMethod.Get))
+            {
+                <div class="form-group">
+                    @Html.Label("Brand:")
+                    @Html.TextBox("brand", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Min Price:")
+                    @Html.TextBox("minPrice", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Max Price:")
+                    @Html.TextBox("maxPrice", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Warranty:")
+                    @Html.TextBox("warranty", null, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Discount:")
+                    @Html.TextBox("discount", null, new { @class = "form-control" })
+                </div>
+                <button type="submit" class="btn btn-primary">Filter</button>
+            }
+        </div>
+        <div class="col-md-8" style="border:solid 1px black">
+            <div class="row">
+                @foreach (var product in Model.Entities)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="product-item-view " id="product_view_@(product.Id)">
+                            <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+
+                                <div class="plpThumbImg">
+
+                                    <span class="product-image-container product-image-container-@(product.Id)" style="width: 240px;">
+                                        <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" width="240" height="300" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="plpContentWrapper">
+                                    <div class="listviewLeft">
+                                        <h2 class="plpTitle">@product.Description</h2>
+                                    </div>
+                                    <div class="listviewRight">
+                                        <div class="plp-price-wrapper">
+                                            <div class="price-box price-final_price" data-role="priceBox" data-product-id="@product.Id" data-price-box="product-id-@(product.Id)">
+                                                <div class="product-price">
+                                                    <p class="price-huge-static">
+                                                        <span class="special-price">
+                                                            <span class="price-container">
+                                                                <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper">
+                                                                    @product.Price <span class="currency">EGP</span>
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        @* <div class="card">
+                            <img src="@product.Images.FirstOrDefault()" class="card-img-top" alt="..." style="max-width: 100%; max-height: 250px;">
+                            <div class="card-body">
+                                <h5 class="card-title">@product.ModelName</h5>
+                                <p class="card-text">@product.Description</p>
+                                <a href="#" class="btn btn-primary">@product.Price</a>
+                            </div>
+                        </div> *@
+@*                     </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>  *@
+
+
+
+@* @foreach (var product in Model.Entities)
+{
+    <div class="product-item-view " id="product_view_@(product.Id)">
+        <a class="listingWrapperSection" href="#">
+            
+            <div class="plpThumbImg">
+               
+                <span class="product-image-container product-image-container-@(product.Id)" style="width: 240px;">
+                    <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                        <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" width="240" height="300" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                    </span>
+                </span>
+            </div>
+            <div class="plpContentWrapper">
+                <div class="listviewLeft">
+                    <h2 class="plpTitle">@product.Description</h2>
+                </div>
+                <div class="listviewRight">
+                    <div class="plp-price-wrapper">
+                        <div class="price-box price-final_price" data-role="priceBox" data-product-id="@product.Id" data-price-box="product-id-@(product.Id)">
+                            <div class="product-price">
+                                <p class="price-huge-static">
+                                    <span class="special-price">
+                                        <span class="price-container">
+                                            <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper">
+                                                @product.Price <span class="currency">EGP</span>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </a>
+    </div>
+} *@
+
+
+
+
+
+
+@model ResultDataList<GetAllProductsDtos>
+
+
+
+
+        <style>
+            /* .container{
+                width:90%;
+            } */
+
+            .item{
+                padding:20px;
+                border-radius:5px;
+                box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+                transition: box-shadow 0.3s ease;
+
+            }
+
+            .item p{
+                font-size:16px;
+            }
+
+            .item h3{
+                font-size:12px;
+                font-weight:800;
+            }
+
+            .item:hover{
+                box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+            }
+
+            .item img{
+                width:70%;
+            }
+
+        </style>
+    
+
+   
+        <div class="container">
+            <div class="row">
+
+            <div class="col-md-3">
+
+            </div>
+
+            <div class="col-md-9">
+
+                <div class="row">
+                  
+                    
+                        @if (Model != null && Model.Entities != null)
+                        {
+                            @foreach (var product in Model.Entities)
+                            {
+                            @if (product.DiscountValue > 0)
+                            {
+                                <div class="col-md-4 mt-4">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                        <div class="item">
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                            <p class="mt-3">@product.Description</p>
+                                            <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
+                                            <span class="price-container">
+                                                <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                    @product.Price <span class="currency"></span>
+                                                </span>
+                                                <span style="color:red">@product.DiscountValue% of</span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-4 mt-4">
+                                    <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                        <div class="item">
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                            <p class="mt-3">@product.Description</p>
+                                            <h3 class="mt-3">@product.Price EGP</h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        }
+                        }
+                    
+                </div>
+
+            </div>
+            
+            
+            </div>
+        </div>
+    
+
+
+
+                                               

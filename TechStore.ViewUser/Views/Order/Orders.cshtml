@@ -1,0 +1,175 @@
+﻿
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
+}
+
+
+@model ResultDataList<GetAllOrderDto>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/Order.css">
+
+    <style>
+        
+    </style>
+</head>
+
+<body>
+
+    @if (Model.Entities != null)
+    {
+        <div class="container">
+            <h2 class="mt-4" dir="auto">@Localizer["YourOrders"]</h2>
+            <div class="row" dir="auto">
+                @foreach (var order in Model.Entities)
+                {
+                    <div class="col-md-6 col-l-3 col-xl-4">
+                        <div class="order-card">
+                            <div class="order-header">
+                                <h3>@Localizer["OrderNumber"]: @order.Id</h3>
+                            </div>
+                            <div class="order-details">
+                                <p><span>@Localizer["OrderDate"] :</span> @order.OrderDate</p>
+                                <p><span>@Localizer["Address"] :</span> @order.ShippingAddress</p>
+                                <p><span>@Localizer["Status"] :</span> @order.OrderStatus</p>
+                                <p><span>@Localizer["PayMethod"] :</span> @order.PayMethod</p>
+                                <p><span>@Localizer["TotalPrice"] :</span> @order.TotalPrice EGP</p>
+
+
+                                <form asp-controller="Order" asp-action="GetAllOrderItems" method="get" dir="auto" class="butnon d-inline">
+                                    <input type="hidden" name="OrderId" value="@order.Id" />
+                                    <button type="submit" class="btn btn-outline-dark float-end">@Localizer["Details"]</button>
+                                </form>
+                                @if (order.OrderStatus == "Pending" && order.PayMethod == "Cash")
+                                {
+                                    <form asp-controller="Order" asp-action="CancelOrder" method="post" dir="auto" class="butnon d-inline">
+                                        <input type="hidden" name="OrderId" value="@order.Id" />
+                                        <button type="button" class="btn btn-outline-dark cancel float-end" onclick="openModal('@order.Id', '@Localizer["CancelConfirmation"]')">@Localizer["Cancel"]</button>
+                                    </form>
+                                }
+                                
+                          </div>
+                     </div>
+                   </div>
+                    
+                }
+            </div>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <p id="modalText"></p>
+                    <div class="button-container">
+                        <button class="btn btn-outline-dark" id="confirmButton">@Localizer["Confirm"]</button>
+                        <button id="cancelButton" class="btn btn-outline-dark cancel">@Localizer["Cancel"]</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>No orders found.</p>
+    }
+
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p id="modalText"></p>
+            <div class="button-container">
+                <button id="cancelButton">@Localizer["Cancel"]</button>
+                <button id="confirmButton">@Localizer["Confirm"]</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+    function openModal(orderId, message) {
+        var modal = document.getElementById("myModal");
+        var modalText = document.getElementById("modalText");
+        var confirmButton = document.getElementById("confirmButton");
+
+        modalText.innerText = message;
+
+        confirmButton.onclick = function () {
+
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "/Order/CancelOrder");
+
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", "OrderId");
+            hiddenField.setAttribute("value", orderId);
+
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+
+            form.submit();
+
+
+            modal.style.display = "none";
+        }
+
+        var cancelButton = document.getElementById("cancelButton");
+        cancelButton.onclick = function () {
+
+            modal.style.display = "none";
+        }
+
+
+        modal.style.display = "block";
+    }
+</script>
+
+
+    <script>
+        function openModal(orderId, message) {
+            var modal = document.getElementById("myModal");
+            var modalText = document.getElementById("modalText");
+            var confirmButton = document.getElementById("confirmButton");
+
+            modalText.innerText = message;
+
+            confirmButton.onclick = function () {
+               
+                var form = document.createElement("form");
+                form.setAttribute("method", "post");
+                form.setAttribute("action", "/Order/CancelOrder"); 
+
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", "OrderId");
+                hiddenField.setAttribute("value", orderId);
+
+                form.appendChild(hiddenField);
+                document.body.appendChild(form);
+
+                form.submit();
+
+                
+                modal.style.display = "none";
+            }
+
+            var cancelButton = document.getElementById("cancelButton");
+            cancelButton.onclick = function () {
+                
+                modal.style.display = "none";
+            }
+
+           
+            modal.style.display = "block";
+        }
+    </script>
+
+
+
+

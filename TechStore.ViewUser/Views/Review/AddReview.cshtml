@@ -1,0 +1,250 @@
+﻿
+@{
+    ViewData["Title"] = "AddReview";
+    Layout = null;
+}
+
+<h1>@Localizer["AddReview"] </h1>
+@model TechStore.Dtos.ReviewDtos.CreateOrUpdateReviewDto 
+
+<html>
+    <head>
+       <style>
+        #sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+          
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 10px;
+            z-index: 1000;
+           
+        }
+
+            #sidebars{
+            height: 100%;
+        /*     width: 0; */
+            position: fixed;
+            top: 0;
+            right:0;
+           
+            background-color:white;
+            overflow:hidden;
+            transition: 0.5s;
+            padding-top: 10px;
+            z-index: 1000;
+            width:382px;
+            padding:10px;
+            }
+
+            body{
+            background-color: white;
+          
+            }
+
+            #sidebar a {
+                color: #818181;
+                text-decoration: none;
+                margin-bottom: 16px;
+            }
+
+
+
+            #sidebar .closebtn {
+                position: absolute;
+                top: 0;
+                right: 25px;
+                font-size: 27px;
+                margin-left: 50px;
+                text-align: end;
+            }
+
+                #sidebar .closebtn:hover {
+                    color: #f1f1f1;
+                }
+
+        .top_Items {
+            display: flex;
+            padding-left: 10px
+        }
+
+        .img_productRev  img {
+            width: 100%;
+            height: 100%;
+        }
+
+        /*   Rating */
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            cursor: pointer;
+            font-size: 24px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+            .rating label:before {
+                content: '\2605';
+                padding: 5px;
+                color: #ccc;
+            }
+
+        .rating input:checked ~ label:before {
+            color: #ffc107;
+        }
+
+        #star:checked ~ label:before {
+            color: #ffc107;
+        }
+     /*    comment */
+        .comment{
+            width:100%;
+          padding:20px;
+            border: 1px solid #ccc;
+            border-radius:7px;
+
+        }
+
+        .rol{
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            border-block-color:darkgray
+        }
+
+        .c{
+            width: 100%;
+            padding: 5px;
+           
+           
+          
+            
+        }
+
+        .c p{
+            font-weight:150;
+            
+        }
+        .addreview{
+            margin-top:10px;
+        }
+        .addreview button {
+            width:100%;
+            padding:15px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            border-block-color: darkgray
+        }
+    </style>
+    </head>
+    <body>
+    
+    <!-- Sidebar Review -->
+    
+    <div id="sidebars" class="bg-light">
+        <div class="row top_Items  ">
+            <div class="col-7"> <h4>Review product</h4></div>
+            <a href="javascript:void(0)" class="closebtn col-3" onclick="closeSidebar()">&times;</a>
+
+        </div>
+        <div class="space"></div>
+        <div class="row top_Items  ">
+                <div class="col-3 img_productRev"> <img src="@ViewBag.img" alt="Alternate Text" /></div>
+            <div class="col-8">
+                    <p>@ViewBag.Descript </p>
+            </div>
+        </div>
+        <form asp-controller="Review" asp-action="AddReview" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="productId" value="@ViewBag.productId"/>
+            <input type="hidden" name="ReviewDate" value="@DateTime.Now" />
+        <div class="Rate_product">
+            <h4>Rate product</h4>
+        </div>
+      
+
+            <div class="rating">
+             
+                <input asp-for="Rating" type="radio" id="star5" name="rating" value="5" onclick="highlightStars(5)" /><label for="star5" title="5 stars"></label>
+                <input asp-for="Rating" type="radio" id="star4" name="rating" value="4" onclick="highlightStars(4)" /><label for="star4" title="4 stars"></label>
+                <input asp-for="Rating" type="radio" id="star3" name="rating" value="3" onclick="highlightStars(3)" /><label for="star3" title="3 stars"></label>
+                <input asp-for="Rating" type="radio" id="star2" name="rating" value="2" onclick="highlightStars(2)" /><label for="star2" title="2 stars"></label>
+                <input asp-for="Rating" type="radio" id="star1" name="rating" value="1" onclick="highlightStars(1)" /><label for="star1" title="1 stars"></label>
+           
+            </div>
+
+
+            <div class="Your review row col-12">
+                <label>Your review</label>
+              
+                <input asp-for="Comment" class="comment" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+                <div class="c"> <p>We'd like to hear more from you (optional).</p></div>
+
+
+
+    </div>
+
+      
+      <div class="row col-12 justify-content-center">
+          <div class="addreview col-8">
+              
+                    <button  type="submit">Submit review</button>
+                </div>
+      </div>
+        </form>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+  
+    <script>
+        // Review
+
+      
+            function closeSidebar() {
+                var sidebar = document.getElementById("sidebars");
+                sidebar.style.width = "0";
+
+                setTimeout(function () {
+                    sidebar.style.display = "none"; 
+                }, 500); 
+            }
+
+
+        function highlightStars(selectedRating) {
+         
+            var inputs = document.querySelectorAll('input[name="rating"]');
+
+         
+            for (var i = 0; i < inputs.length; i++) {
+               
+                var rating = parseInt(inputs[i].value);
+
+                if (rating <= selectedRating) {
+                    inputs[i].nextElementSibling.style.color = 'yellow';
+                } else {
+                    inputs[i].nextElementSibling.style.color = '';
+                }
+            }
+        }
+ 
+    </script>
+
+
+    </body>
+</html>
+
+
+
+
+

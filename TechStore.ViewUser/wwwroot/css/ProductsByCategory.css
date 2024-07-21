@@ -1,0 +1,475 @@
+﻿body {
+}
+.item {
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.3s ease;
+}
+
+.item p {
+    font-size: 0.9vw;
+    max-width: 100%;
+}
+
+.item h3 {
+    font-size: 0.9vw;
+    font-weight: 800;
+}
+
+.item:hover {
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+}
+
+.item img {
+    width: 90%;
+    height: 30vh;
+}
+
+span {
+    font-size: 0.7vw;
+}
+
+
+.radio-label {
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+}
+
+
+.radio-label input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.radio-custom {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+.radio-label input[type="radio"]:checked + .radio-custom {
+    background-color: black;
+    cursor: pointer;
+}
+
+.radio-label:hover {
+    cursor: pointer;
+}
+
+.radio-text {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 30px;
+    font-size: 1vw;
+}
+
+.brand p {
+    font-weight: 700;
+    font-size: 1.2vw;
+}
+
+.fa-plus {
+    font-size: 1vw;
+}
+
+.plus-icon {
+    cursor: pointer;
+}
+
+.plus-icon:hover {
+    cursor: pointer;
+}
+
+.sort-options {
+    margin-bottom: 20px;
+}
+
+.sort-options label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.sort-options select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.sort-options select:hover {
+    border-color: black;
+}
+
+
+.sort-options select:focus {
+    outline: none;
+    border-color: black;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+}
+
+
+
+.product-image-photo {
+    width: 100%;
+    height: auto;
+}
+
+
+.item p,
+.item h3 {
+    font-size: 16px;
+}
+
+
+.discounted-price {
+    font-size: 16px;
+}
+
+.price-container {
+    font-size: 14px;
+    display: block;
+    margin-top: 5px;
+}
+
+.price-wrapper {
+    text-decoration: line-through;
+}
+
+.Discount {
+    font-size: 0.8vw !important;
+    margin-left: 0.4vw;
+    color: red;
+}
+
+
+.radio-label input[type="radio"] {
+    font-size: 16px;
+}
+
+
+.pagination {
+    padding: 20px;
+}
+
+.Head {
+    margin-top: 10px;
+}
+
+
+#sort-select option:hover {
+    background-color: black;
+}
+
+
+.page-item.active .page-link {
+    color: white;
+    background-color: black;
+    border-color: black;
+}
+
+.pagination .page-link {
+    color: black;
+}
+
+.description {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+@media (min-width: 991px) and (max-width: 1200px) {
+    .item img {
+        width: 100% !important;
+        height: 30vh !important;
+    }
+
+    .container {
+        max-width: 1000px !important;
+    }
+
+    .price-wrapper {
+        font-size: 12px;
+    }
+
+    .item p,
+    .item h3,
+    .radio-text,
+    .brand p,
+    .fa-plus {
+        font-size: 1.2vw;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 1200px) {
+
+    .item img {
+        width: 50%;
+        height: 15vh !important;
+    }
+}
+
+
+
+    @media (min-width: 900px) and (max-width: 990px) {
+        .left {
+            width: 40%;
+        }
+
+        .right {
+            width: 60%;
+        }
+
+        .discount {
+            font-size: 16px;
+        }
+
+        .container {
+            max-width: 800px !important;
+        }
+
+        .price-wrapper {
+            font-size: 12px;
+        }
+    }
+
+
+    @media (min-width: 769px) and (max-width: 900px) {
+        .discount {
+            font-size: 16px;
+        }
+    }
+
+
+
+
+    @media (min-width: 768px) and (max-width: 990px) {
+        .left {
+            width: 35%;
+        }
+
+        .right {
+            width: 65%;
+        }
+
+        .item img {
+            width: 80%;
+            height: 25vh;
+        }
+
+        .item p,
+        .item h3,
+        .radio-text,
+        .brand p,
+        .fa-plus {
+            font-size: 1.5vw;
+        }
+
+        .Discount {
+            font-size: 1.2vw !important;
+            margin-left: 0.9vw !important;
+        }
+
+        .price-wrapper {
+            font-size: 12px;
+        }
+    }
+
+
+
+    @media (max-width: 768px) {
+        .radio-label,
+        .radio-text {
+            font-size: 14px;
+        }
+
+        .plus-icon i {
+            font-size: 18px;
+        }
+
+        input[type="radio"] {
+            transform: scale(1.5);
+            margin-right: 5px;
+        }
+
+        .discount {
+            font-size: 16px;
+        }
+
+        .item p,
+        .item h3,
+        .radio-text,
+        .brand p,
+        .fa-plus {
+            font-size: 2vw;
+        }
+
+        .radio-label input[type="radio"] {
+            font-size: 14px;
+        }
+
+        .container {
+            width: 100%;
+        }
+
+        .Discount {
+            font-size: 1.5vw !important;
+            margin-left: 0.9vw !important;
+        }
+
+        .price-wrapper {
+            font-size: 12px;
+        }
+
+        .item img {
+            width: 80%;
+            height: 30vh;
+        }
+
+        .pt-4 {
+            padding-top: 0.2rem !important;
+        }
+
+        .mt-5 {
+            margin-top: 2rem !important;
+        }
+
+        .item img {
+            width: 80%;
+            height: 25vh;
+        }
+    }
+
+    @media only screen and (max-width: 600px) {
+        .row {
+            flex-direction: row !important;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        .pt-4 {
+            padding-top: 0.2rem !important;
+        }
+
+        .mt-5 {
+            margin-top: 2rem !important;
+        }
+
+        .item img {
+            width: 80%;
+            height: 25vh;
+        }
+    }
+
+
+    @media (max-width: 576px) {
+        .item p,
+        .item h3,
+        .radio-text,
+        .brand p,
+        .fa-plus {
+            font-size: 3vw;
+        }
+
+        .radio-label input[type="radio"] {
+            font-size: 12px;
+        }
+
+        .Discount {
+            font-size: 2vw !important;
+            margin-left: 0.9vw !important;
+        }
+
+        .price-wrapper {
+            font-size: 12px;
+        }
+
+        .container {
+            width: 80%;
+        }
+
+        .item img {
+            width: 80%;
+            height: 25vh;
+        }
+
+        .item {
+            padding: 30px
+        }
+
+        .pt-4 {
+            padding-top: 0.2rem !important;
+        }
+    }
+
+
+
+
+
+    /* Extra large devices (large desktops, 1200px and up) */
+    /*@media (min-width: 1200px) {
+    .item {
+        padding: 25px;
+    }
+}*/
+
+    /* Large devices (desktops, 992px and up) */
+    /*@media (min-width: 992px) {
+    .item {
+        padding: 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    .item {
+        padding: 15px;
+    }
+}
+
+
+@media (min-width: 576px) {
+    .item {
+        padding: 10px;
+    }
+}*/
+
+
+
+    /* Adjust font sizes and spacing for smaller screens */
+    /*@media screen and (max-width: 767px) {
+    .price-container {
+        font-size: 12px; 
+    }
+
+    .Discount {
+        font-size: 12px; 
+    }
+}
+.price-wrapper {
+    font-size: 12px; 
+    text-decoration: line-through;
+
+}*/
+
+    /* Adjust font size for smaller screens */
+    /*@media screen and (max-width: 767px) {
+    .price-wrapper {
+        font-size: 14px;
+    }
+}*/
+
+

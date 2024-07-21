@@ -1,0 +1,51 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/PayDetails.css">
+    <script>
+        function checkInputs() {
+            var address = document.getElementById("exampleInputAddress").value;
+            var phone = document.getElementById("exampleInputPhone").value;
+            var cashButton = document.getElementById("cashButton");
+            var stripeButton = document.getElementById("stripeButton");
+
+            if (address.trim() === "" || phone.trim() === "") {
+                cashButton.disabled = true;
+                stripeButton.disabled = true;
+            } else {
+                cashButton.disabled = false;
+                stripeButton.disabled = false;
+            }
+        }
+    </script>
+    </head>
+    <body>
+        <div class="containerr">
+            <form class="mx-auto formm" method="post" action="@Url.Action("CheckOut", "Payment")">
+                <div class="form-group">
+                    <label for="exampleInputAddress">Address</label>
+                <input type="text" class="form-control" name="Address" id="exampleInputAddress" placeholder="Enter Your Addess" onkeyup="checkInputs()">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPhone">Phone</label>
+                <input type="text" class="form-control" name="PhoneNumber" id="exampleInputPhone" placeholder="Enter Your Phone" onkeyup="checkInputs()">
+                </div>
+                <div class="btns mt-5 text-center">
+                <button id="cashButton" class="m-3" type="submit" name="paymentMethod" value="Cash" style="width: 120px; height: 60px;" disabled>
+                    <img src="~/PaymentImage/cash-on-delivery-.png" style="width: 100%; height: 100%;" />
+                </button>
+                <button id="stripeButton" class="m-3" type="submit" name="paymentMethod" value="Stripe" style="width: 120px; height: 60px;" disabled>
+                    <img src="~/PaymentImage/stripe.png" style="width: 100%; height: 100%;" />
+                </button>
+            </div>
+                
+            </form>
+
+        </div>
+    </body>
+</html>

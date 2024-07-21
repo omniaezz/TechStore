@@ -1,0 +1,131 @@
+﻿@model ResultDataList<GetAllProductsDtos>
+@{
+    ViewData["Title"] = "Search";
+    int pageSize = 6; // Assuming a default page size of 10
+    var pageNumber = ViewBag.PageNumber ?? 1;
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
+}
+
+<style>
+    .item {
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+        transition: box-shadow 0.3s ease;
+    }
+
+        .item p {
+            font-size: 16px;
+            max-width: 100%;
+        }
+
+        .item h3 {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .item:hover {
+            box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+        }
+
+        .item img {
+            width: 70%;
+        }
+</style>
+
+<div class="container">
+    <div class="row">
+
+      
+        <div class="col-md-8">
+            <div class="row">
+
+                @if (Model != null && Model.Entities != null)
+                {
+                    @foreach (var product in Model.Entities)
+                    {
+                        @if (product.DiscountValue > 0)
+                        {
+
+                            <div class="col-md-4 mt-4">
+                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                    <div class="item">
+                                        @if (product.Images != null && product.Images.Any())
+                                        {
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        }
+                                        @if (lan == "ar")
+                                        {
+                                            <p class="mt-3">@product.Ar_Description</p>
+
+                                        }
+                                        else
+                                        {
+                                            <p class="mt-3">@product.Description</p>
+
+                                        }                                        <h3 class="mt-3">@product.DiscountedPrice EGP</h3>
+                                        <span class="price-container">
+                                            <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                @product.Price <span class="currency"></span>
+                                            </span>
+                                            <span style="color:red">   @product.DiscountValue% of</span>
+                                        </span>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-4 mt-4">
+                                <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                    <div class="item">
+                                        @if (product.Images != null && product.Images.Any())
+                                        {
+                                            <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" height="200" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                        }
+                                        <p class="mt-3">@product.Description</p>
+                                        <h3 class="mt-3">@product.Price EGP</h3>
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    }
+                    <section aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            @if (pageNumber > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = pageNumber - 1 })">@Localizer["Previous"]</a>
+                                </li>
+                            }
+                            @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
+                            {
+                                <li class="page-item @(i == pageNumber ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = i })">@i</a>
+                                </li>
+                            }
+
+                            @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Search", new { name = ViewBag.Name, pageNumber = pageNumber + 1 })">@Localizer["Next"]</a>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </section>
+                }
+               
+                else
+                {
+                    <p>@Localizer["Noproductsfound"]</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

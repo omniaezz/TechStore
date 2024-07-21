@@ -1,0 +1,218 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
+}
+@model ResultView<GetProductSpecificationNameValueDtos>
+  
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 50px auto;
+        width: 80%;
+        font-size: 15px;
+    }
+
+    table,
+    th,
+    td {
+        border-bottom: 1px solid;
+        text-align: left;
+        padding: 15px;
+    }
+
+    thead th {
+        font-size: 20px;
+        border: none;
+    }
+    </style>
+    @if (Model.Entity != null && Model.Entity.productsDtos != null)
+{
+    <div dir="auto" class="container">
+        <div class="row" style="padding-top:2vw;">
+            <div class="col-lg-6 col-md-12">
+                    <div class="row">
+                    <div class="col-2 small_screen">
+                        <div class="hidden"><p id="productId">@Model.Entity.productsDtos.Id</p> </div>
+                        <div class="controller" style="flex-direction: column">
+                            <div class="slider">
+                                @foreach (var image in Model.Entity.productsDtos.Images)
+                                {
+                                    <div class="controller-image">
+                                        <img class="product-image-photo" src="@image" data-src="@image">
+                                    </div>
+                                   
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @* //----------- show-on-medium and small ---------------------------------- *@
+
+                    <div id="carousel-detils" class="carousel slide d-lg-none w-75 my-md-2 w-75" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            @for (int i = 0; i < Model.Entity.productsDtos.Images.Count; i++)
+                            {
+                                <button type="button" data-bs-target="#carousel-detils" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="true" aria-label="Slide @(i + 1)"></button>
+                            }
+                        </div>
+                        <div class="carousel-inner">
+                            @for (int i = 0; i < Model.Entity.productsDtos.Images.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")">
+                                    <img src="@Model.Entity.productsDtos.Images[i]" class="d-block w-100" alt="Slide @(i + 1)">
+                                </div>
+                               
+                            }
+                        </div>
+                    </div>
+
+
+                    @* //------------------------------------------ *@
+
+                    <div class="col-lg-9 col-sm-12 small_screen">
+                        <div class="image w-75">
+                            <img id="productImg" class="w-100" alt="" src="@Model.Entity.productsDtos.Images.FirstOrDefault()">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-12 content show-on-medium-large">
+                    @if (@Model.Entity.productsDtos.DiscountValue > 0)
+                    {
+                    string formattedDiscountedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.DiscountedPrice);
+                    string formattedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.Price);
+                    @if (lan == "ar")
+                    {
+                        <h4>@Model.Entity.productsDtos.Ar_ModelName</h4>
+
+                    }
+                    else
+                    {
+                        <h4>@Model.Entity.productsDtos.ModelName</h4>
+
+                    }
+                    @if (lan == "ar")
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Ar_Description</p>
+                    }
+                    else
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Description</p>
+                    }
+                    <h3 id="descount">@formattedDiscountedPrice EGP</h3>
+                        <span class="price-container">
+                            <span id="product-price-@(Model.Entity.productsDtos.Id)" data-price-amount="@Model.Entity.productsDtos.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                            @formattedPrice <span class="currency"></span>
+                            </span>
+                            <span style="color:red">   @Model.Entity.productsDtos.DiscountValue% of</span>
+                        </span>
+                        <br />
+                    }
+                    else
+                    {
+                    string formattedPrice = string.Format("{0:#,0}", @Model.Entity.productsDtos.Price);
+
+                    @if (lan == "ar")
+                    {
+                        <h4>@Model.Entity.productsDtos.Ar_ModelName</h4>
+
+                    }
+                    else
+                    {
+                        <h4>@Model.Entity.productsDtos.ModelName</h4>
+
+                    }          
+                    @if (lan == "ar")
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Ar_Description</p>
+                    }
+                    else
+                    {
+                        <p id="Description" style="font-size:20px">@Model.Entity.productsDtos.Description</p>
+                    }                     
+                    <h2>@formattedPrice EGP</h2>
+                    }
+                    <!-- Form for adding product to the cart -->
+                    <form id="addToCartForm" asp-action="AddToCart" asp-controller="Cart" method="post">
+                        <input type="hidden" name="productId" value="@Model.Entity.productsDtos.Id" />
+                        <input type="hidden" name="Description" value="@Model.Entity.productsDtos.Description" />
+                    <input type="hidden" name="Ar_Description" value="@Model.Entity.productsDtos.Ar_Description" />
+
+                        @* checkdiscount *@
+                        <input type="hidden" name="price" value="@Model.Entity.productsDtos.Price" />
+                        <input type="hidden" name="DiscountValue" value="@Model.Entity.productsDtos.DiscountValue" />
+                        <input type="hidden" name="DiscountedPrice" value="@Model.Entity.productsDtos.DiscountedPrice" />
+                        <input type="hidden" name="CopyQuantity" value="@Model.Entity.productsDtos.Quantity" />
+                        <input type="hidden" name="image" value="@Model.Entity.productsDtos.Images.FirstOrDefault()" />
+                        <input type="hidden" name="quantity" value="1" min="1" />
+                    <button onclick="reloadPage()" id="addToCartButton" class="btn btn-dark w-100 full-width-small-sceen"><i class="fas fa-shopping-cart"></i> @Localizer["AddToCart"] </button>
+                    </form>
+                
+                    
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>@Localizer["Error"]</p>
+}
+
+
+
+<div dir="auto" class="container">
+        @if (Model.Entity != null && Model.Entity.specificationsNameValueDtos != null)
+        {
+        <table dir="auto">
+                <thead>
+                       <th dir="auto">@Localizer["Specification"]</th>
+                </thead>
+
+                <tbody>
+                    @foreach (var specification in Model.Entity.specificationsNameValueDtos)
+                    {
+                  
+                        <tr>
+                          <th>@specification.Name</th>
+                          <td>@specification.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+ 
+
+
+
+    <div class="container">
+        <div class="reviews_product col-12">
+            <div class=" Review col-11 col-sm-12">
+    @if (Model.Entity != null && Model.Entity.productsDtos.Id != null)
+    { 
+      
+        <div id="Review"></div>
+    }
+            
+        </div>
+    </div>
+    </div>
+    <div id="sidebar"></div>
+
+
+   
+
+   

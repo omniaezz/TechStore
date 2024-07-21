@@ -1,0 +1,358 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ResultDataList<GetAllReviewDto>
+
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+
+
+        .Review {
+            border: 1px rgb(241, 241, 241) solid;
+            box-shadow: 0px 0px 10px rgba(190, 189, 189, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .reviews_product {
+            padding: 20px;
+        }
+
+        .review_center {
+            display: flex;
+            justify-content: center;
+        }
+
+        .space {
+            margin-bottom: 10px;
+            padding: 0;
+            width: 100%;
+            height: 0.1rem;
+            background-color: rgb(212, 212, 212);
+        }
+
+        .Date {
+            float: right;
+            text-align: right;
+            padding: 5px;
+            margin-top: 5px;
+            margin-bottom: 20px
+        }
+
+        .RemoveBtn {
+            float: right;
+            text-align: right;
+            padding: 5px;
+            margin-top: 5px;
+            color: red
+        }
+
+        .Nameuser {
+            padding: 5px;
+            margin-top: 20px;
+            margin-bottom: 5px
+        }
+
+            .Nameuser span {
+                font-weight: 100;
+            }
+
+        .Checkout {
+            text-align: center;
+            height: 55px;
+            margin-bottom: 20px;
+        }
+
+            .Checkout button {
+                border: 1px rgb(10, 10, 10) solid;
+                border-radius: 7px;
+                background-color: rgb(6, 5, 16);
+                width: 79%;
+                font-weight: bold;
+                color: #fefefe;
+                height: 100%;
+                text-align:center;
+            }
+
+                .Checkout button:hover {
+                    background-color: #cacaca;
+                }
+
+        .checked {
+            color: orange;
+        }
+
+        .cart-numbers {
+            font-weight: bold;
+            margin-left: 0.4rem;
+            display: flex;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .number-products {
+            display: flex;
+            padding: 3px;
+            width: 30px;
+            height: 30px;
+            margin-left: 4px;
+        }
+
+        .rating_customer {
+            margin: 20px;
+        }
+
+        .hidden {
+            display: none
+        }
+
+        .submit{
+            border:0;
+            background-color:white;
+
+        }
+
+        .remove-review{
+            color:red;
+        }
+        .pagination_review {
+            text-align: center;
+        }
+
+        #comm {
+            word-wrap: break-word;
+            font-size:13px;
+            font-weight:400;
+           
+        }
+
+        .Nameuser {
+            width: auto;
+            margin:0;
+            padding:0;
+        }
+
+            .Nameuser span {
+                overflow-wrap: break-word;
+                font-weight:bold;
+                font-size:15px;
+            }
+
+
+     
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+
+        }
+       .body{
+            font-family: "Raleway", sans-serif;
+       }
+
+        .date{
+            font-weight: 600;
+            font-size: 15px;
+        }
+    </style>
+
+</head>
+<body>
+
+  @*   ReviewUser *@
+    <div id="reviewContainer">
+        <div class="reviews_product col-12" dir="auto">
+            <div class="cart-number">
+                <div><h4>@Localizer["Reviews"]</h4></div>
+                <div class="number-product">@Model.Count</div>
+            </div>
+
+            @if (Model.Count == 0)
+            {
+                <div>
+                    <h5>@Localizer["No reviews yet"]</h5>
+                    <p>@Localizer["first to leave a review"].</p>
+          
+                    <div class="Checkout col-12 col-md-4">
+                        <button type="button" id="writeReviewBtn">@Localizer["Write a Review"] </button>
+
+                    </div>
+
+                </div>
+
+            }
+            else
+            {
+              @*   <div class=" Review col-11"> *@
+                <div class="rating_customer"><h6>@Localizer["Customer ratings & Review"]</h6></div>
+
+                    <div class="Checkout col-lg-3  col-md-3 col-sm-3 ">
+
+                    <button type="button" id="writeReviewBtn">@Localizer["Write a Review"] </button>
+
+                    </div>
+
+                    <div class="review_center col-lg-12 col-ms-12 row">
+                        @{
+                            int maxRating = 5;
+                        }
+
+                        @foreach (var Itms in Model.Entities)
+                        {
+                            int rating = Itms.Rating;
+                            int coloredStars = (int)Math.Ceiling((double)rating / maxRating * 5);
+
+                            <div class="Review col-11">
+                                <div class="Date"><span class="date">@Itms.ReviewDate</span></div>
+                            <div class="col-11">
+                                <div class="Nameuser col-12">  <span><span>by</span> @Itms.UserName</span></div>
+                                </div>
+                                @if (@ViewBag.UserId == @Itms.UserId)
+                                {
+                                    <div class="RemoveBtn">
+                                        <form method="post" asp-action="DeleteReview">
+                                 <input type="hidden" name="reviewId" value="@Itms.Id">
+                                    <button class="submit" type="submit">
+                                    <i class="remove-review fa-regular fa-trash-can"></i>
+                                     </button>
+                                   </form>
+                                  </div>
+
+                                }
+                                else
+                                {
+                                    <div></div>
+                                }
+                                <div class="cart-numbers col-12">
+                                    <div class="row">
+                                        <div class="number-product col-sm-auto mb-2 mb-md-0">
+                                            <span style="font-weight:bold;font-size:11px">@rating/5</span>
+                                        </div>
+                                        <div class="number-products  col-sm">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                <span class="fa fa-star @(i <= coloredStars ? "checked" : "")"></span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space"></div>
+                                <div class="col-12">
+                                <div class="col-12 m-2"> <span id="comm">@Itms.Comment</span></div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                  
+
+                 <!-- Add pagination section -->
+                <div id="pagination" class="col-12">
+                    <ul class="pagination flex-wrap justify-content-center">
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(ViewBag.PageNumber == i ? "active" : "")">
+                                <a class="page-link" href="#" onclick="loadPage(@i)">@i</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+
+
+ 
+
+
+
+               
+            }
+           
+
+        </div> 
+     </div>
+
+
+   
+
+
+
+
+
+
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+    <script>
+
+       
+
+        // sidebar
+        $(document).ready(function () {
+            $('#writeReviewBtn').click(function (e) {
+                e.preventDefault();
+
+                var _Description = $('#Description').text();
+
+                var _imgproduct = $('#productImg').attr('src');
+                console.log(_imgproduct)
+                var _productId = parseInt($('#productId').text());
+                console.log(_productId)
+
+                if (_productId === 0) {
+                    console.error('Please provide a review before submitting.');
+                    return;
+                }
+
+                var dataToSend = {
+                    productid: _productId,
+                    Description: _Description,
+                    imgproduct: _imgproduct
+
+                };
+
+                $.ajax({
+                    url: '/Review/AddReview',
+                    type: 'Get',
+                    data: dataToSend,
+                    success: function (response) {
+
+                        $('#sidebar').html(response);
+
+                        // openSidebar();
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+
+                        window.location.href = '/Account/Login';
+                    }
+                });
+            });
+        });
+        function loadPage(pageNumber) {
+            $.ajax({
+                url: "/Review/IndexReview?id=@ViewBag.ProductId&page=" + pageNumber,
+                type: "GET",
+                success: function (response) {
+                    console.log(response);
+                    $("#reviewContainer").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading page:", error);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

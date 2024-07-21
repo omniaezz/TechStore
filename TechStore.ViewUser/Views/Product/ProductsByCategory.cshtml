@@ -1,0 +1,307 @@
+﻿@model ResultDataList<GetAllProductsDtos>
+
+@{
+    var categoryId = ViewBag.CategoryId;
+
+    int pageSize = 3; // Assuming a default page size of 10
+    var pageNumber = ViewBag.PageNumber ?? 1; // Retrieve the current page number from ViewBag
+    string actionName = ViewBag.ActionName ;
+    var lan = "en";
+    if (CultureInfo.CurrentCulture.TextInfo.CultureName.StartsWith("ar"))
+    {
+        lan = "ar";
+    }
+}
+@{
+    ViewData["Title"] = @actionName;
+}
+
+
+
+
+<div dir="auto" class="container mt-5 pt-4" >
+    <div class="row">
+
+        <div  class="col-lg-4 col-md-6 col-sm-12 mt-5 left">
+
+            <div class="Head">
+                @if (categoryId == 1)
+                {
+                    <h1 dir="auto" class="mb-5">@Localizer["Mobile"]</h1>
+                }
+                @if (categoryId == 2)
+                {
+                    <h1 dir="auto" class="mb-5">@Localizer["Laptop"]</h1>
+                }
+                @if (categoryId == 3)
+                {
+                    <h1 dir="auto" class="mb-5">@Localizer["Screens"]</h1>
+                }
+                @if (categoryId == 4)
+                {
+                    <h1 dir="auto" class="mb-5">@Localizer["Smartwatches"] </h1>
+                }
+                <div dir="auto" class="sort-options mt-4">
+                    <label for="sort-select">@Localizer["Sortby"] </label>
+                    <select id="sort-select">
+                        <option value="">--  @Localizer["Select"]  --</option>
+                        <option value="ascending">@Localizer["PriceLow"]</option>
+                        <option value="descending">@Localizer["PriceHigh"]</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter">
+                <form id="filterForm" action="/Product/Filter" method="post">
+                    <div class="row mt-3">
+                        <div class="col-md-7 brand">
+                            <h4 class="discount">@Localizer["Brand"]</h4>
+                            <div class="radio-container d-none" id="brandRadioContainer">
+                                @foreach (var brand in ViewBag.Brands)
+                                {
+                                    <div>
+                                        <label class="radio-label">
+                                            <input type="radio" name="brand" onclick="check(this)" value="@brand" class="form-check-input" id="rad" />
+                                            <span class="radio-custom"></span> =
+                                            <span class="radio-text">@brand</span>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <input type="hidden" name="categoryId" value="@categoryId" />
+                        </div>
+                        <div class="col-md-5">
+                            <span class="plus-icon" onclick="toggleRadioContainer('#brandRadioContainer')"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-7 brand">
+                            <h4 class="discount">@Localizer["Warranty"]</h4>
+                            <div class="radio-container d-none" id="warrantyRadioContainer">
+                                @foreach (var warranty in ViewBag.WarrantyOptions)
+                                {
+                                    <div>
+                                        <label class="radio-label">
+                                            <input type="radio" name="warranty" onclick="check(this)" value="@warranty" class="form-check-input" id="rad" />
+                                            <span class="radio-custom"></span> =
+                                            <span class="radio-text">@warranty</span>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                            <input type="hidden" name="categoryId" value="@categoryId" />
+                        </div>
+                        <div class="col-md-5">
+                            <span class="plus-icon" onclick="toggleRadioContainer('#warrantyRadioContainer')"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                   
+                    <div class="row mt-3">
+                        <!-- Discount value filter -->
+                        <div class="col-md-7 brand">
+                            <h4 class="discount">@Localizer["DiscountValue"]</h4>
+                            <div class="radio-container d-none" id="discountRadioContainer">
+                                <!-- Discount value options -->
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="5" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">5%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="10" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">10%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="15" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">15%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="20" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">20%</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="radio-label">
+                                        <input type="radio" name="discountValue" onclick="check(this)" value="25" class="form-check-input" id="rad" />
+                                        <span class="radio-custom"></span> =
+                                        <span class="radio-text">25%</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <input type="hidden" name="categoryId" value="@categoryId" />
+                        </div>
+                        <div class="col-md-5">
+                            <span class="plus-icon" onclick="toggleRadioContainer('#discountRadioContainer')"><i class="fa fa-plus"></i></span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <!-- Min price filter -->
+                        <div class="col-md-6">
+                            <label for="minPrice">@Localizer["MinPrice"]</label>
+                            <input type="number" id="minPrice" name="minPrice" class="form-control" />
+                        </div>
+                        <!-- Max price filter -->
+                        <div class="col-md-6">
+                            <label for="maxPrice">@Localizer["MaxPrice"]</label>
+                            <input type="number" id="maxPrice" name="maxPrice" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <button dir="auto" type="submit" class="btn btn-dark mt-2 btn-block">@Localizer["Apply"]</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="col-lg-8 col-md-6 col-sm-12 right">
+            <div class="row">
+                @if (Model != null && Model.Entities != null)
+                {
+                    @foreach (var product in Model.Entities)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-6 mt-4">
+                            <a class="listingWrapperSection" style="text-decoration:none; color:black" asp-action="Details" asp-route-id="@product.Id">
+                                <div class="item">
+                                    @if (product.Images != null && product.Images.Any())
+                                    {
+                                        <img class="product-image-photo" data-src="@product.Images.FirstOrDefault()" alt="@product.ModelName" src="@product.Images.FirstOrDefault()">
+                                    }
+                                    @if(lan=="ar")
+                                    {
+                                        <p class="mt-3 description" >@product.Ar_Description</p>
+
+                                    }
+                                    else
+                                    {
+                                        <p class="mt-3 description">@product.Description</p>
+
+                                    }
+                                    @if (product.DiscountValue > 0)
+                                    {
+                                        <h3 class="mt-3 discounted-price">@String.Format("{0:#,0}", product.DiscountedPrice) EGP</h3>
+                                        <span class="price-container">
+                                            <span id="product-price-@(product.Id)" data-price-amount="@product.Price" data-price-type="finalPrice" class="price-wrapper" style="text-decoration:line-through">
+                                                @product.Price <span class="currency"></span>
+                                            </span>
+                                            <span class="Discount" style="color:red">@product.DiscountValue% off</span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <h3 class="mt-3">@String.Format("{0:#,0}", product.Price) EGP</h3>
+                                    }
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+       
+        <br />
+                <section aria-label="Page navigation" class="mt-3 mb-3">
+            <!-- Pagination links -->
+                    <ul class="pagination justify-content-center">
+                        @if (pageNumber > 1)
+                        {
+                            <li class="page-item">
+                        <a class="page-link" href="@Url.Action(actionName, new { categoryId = ViewBag.CategoryId, pageNumber = pageNumber - 1, criteria = ViewBag.Criteria })">@Localizer["Previous"] </a>
+                            </li>
+                        }
+                        @for (int i = 1; i <= Math.Ceiling((double)Model.Count / pageSize); i++)
+                        {
+                            <li class="page-item @(i == pageNumber ? "active" : "")">
+                                <a class="page-link" href="@Url.Action(actionName, new { categoryId = ViewBag.CategoryId, pageNumber = i, criteria = ViewBag.Criteria })">@i</a>
+                            </li>
+                        }
+
+                        @if (pageNumber < Math.Ceiling((double)Model.Count / pageSize))
+                        {
+                            <li class="page-item">
+                        <a class="page-link" href="@Url.Action(actionName, new { categoryId = ViewBag.CategoryId, pageNumber = pageNumber + 1, criteria = ViewBag.Criteria })">@Localizer["Next"]</a>
+                            </li>
+                        }
+                    </ul>
+
+                </section>
+
+                 
+                
+            </div>
+        </div>
+ 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    // $(document).ready(function () {
+    //     $('.minus-icon').click(function () {
+    //         $('.radio-container').toggle(); // Toggle visibility of radio-container
+    //         $(this).find('i').toggleClass('fa-plus fa-minus'); // Toggle between plus and minus icons
+    //     });
+    // });
+
+
+    $(document).ready(function () {
+        $('.radio-label input[type="radio"]').click(function () {
+            $('#filterForm').submit(); // Submit the form when a radio button is clicked
+        });
+    });
+
+    function check(radioButton) {
+        radioButton.checked = true;
+    }
+
+    function toggleRadioContainer(containerId) {
+        var radioContainer = document.querySelector(containerId);
+        var plusIcon = radioContainer.parentElement.nextElementSibling.querySelector('.plus-icon i');
+
+        // Toggle visibility of the radio container
+        radioContainer.classList.toggle('d-none');
+
+        // Change icon to plus or minus based on visibility
+        if (radioContainer.classList.contains('d-none')) {
+            plusIcon.classList.remove('fa-minus');
+            plusIcon.classList.add('fa-plus');
+        } else {
+            plusIcon.classList.remove('fa-plus');
+            plusIcon.classList.add('fa-minus');
+        }
+    }
+
+    $(document).ready(function () {
+        $(document).on('click', '.radio-label input[type="radio"]', function () {
+            var formId = $(this).closest('form').attr('id');
+            $('#' + formId).submit(); // Submit the form when a radio button is clicked
+        });
+});
+
+
+    $(document).ready(function () {
+        $('#sort-select').change(function () {
+            var selectedOption = $(this).val();
+            var categoryId = @ViewBag.CategoryId;
+            var pageNumber = @ViewBag.PageNumber;
+
+            if (selectedOption === 'ascending') {
+                window.location.href = '@Url.Action("SortByAscending", new { categoryId = ViewBag.CategoryId, pageNumber = ViewBag.PageNumber })';
+            } else if (selectedOption === 'descending') {
+                window.location.href = '@Url.Action("SortByDescending", new { categoryId = ViewBag.CategoryId, pageNumber = ViewBag.PageNumber })';
+            }
+        });
+    });
+</script>
+

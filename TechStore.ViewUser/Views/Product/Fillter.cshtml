@@ -1,0 +1,68 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model FillterProductsDtos
+
+<h1>@Localizer["FilterProducts"]</h1>
+
+<form asp-controller="Product" asp-action="Filter" method="post">
+    <div class="form-group">
+        <label>@Localizer["Brand"] </label><br />
+        @foreach (var brand in Model.Brand)
+        {
+            <label>
+                <input type="checkbox" name="Brand" value="@brand" />
+                @brand
+            </label>
+            <br />
+        }
+    </div>
+    <div class="form-group">
+        <label>@Localizer["Warranty"]</label><br />
+        @foreach (var warranty in Model.Warranty)
+        {
+            <label>
+                <input type="checkbox" name="Warranty" value="@warranty" />
+                @warranty
+            </label>
+            <br />
+        }
+    </div>
+    <div class="form-group">
+        <label> @Localizer["DiscountValue"]</label>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="discountValueCheckbox" name="ApplyDiscountFilter">
+            <label class="form-check-label" for="discountValueCheckbox">@Localizer["ApplyDiscountFilter"]</label>
+        </div>
+        <div class="form-row" id="discountRange" style="display: none;">
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Min Discount Value" name="MinDiscountValue" step="0.01">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control" placeholder="Max Discount Value" name="MaxDiscountValue" step="0.01">
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>@Localizer["PriceRange"] </label><br />
+        <label>
+            <input type="checkbox" name="MinPrice" value="0-100" />
+            $0 - $100
+        </label><br />
+        <label>
+            <input type="checkbox" name="MinPrice" value="100-500" />
+            $100 - $500
+        </label><br />
+        <label>
+            <input type="checkbox" name="MinPrice" value="500-1000" />
+            $500 - $1000
+        </label><br />
+        <label>
+            <input type="checkbox" name="MinPrice" value="1000-" />
+            $1000+
+        </label><br />
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>

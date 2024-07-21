@@ -1,0 +1,40 @@
+﻿body {
+}
+
+body {
+}
+
+.paymentImg {
+    width: 20vw;
+    height: 20vh;
+}
+
+.img-conatiner {
+    text-align: center;
+    margin: 70px 0px;
+}
+
+.P, .header {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.P {
+    font-size: 3vw;
+    color: red;
+}
+
+@media screen and (max-width: 768px) {
+    .paymentImg {
+        width: 30vw;
+        height: 20vh;
+    }
+
+    .P {
+        font-size: 5vw;
+    }
+
+    .header {
+        font-size: 3vw;
+    }
+}

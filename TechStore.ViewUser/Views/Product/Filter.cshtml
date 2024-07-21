@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "Filter";
+}
+
+<h1>Filter</h1>
+
+@model ResultDataList<GetAllProductsDtos>
+
+@{
+    ViewBag.Title = "Filtered Products";
+}
+
+<h2>Filtered Products</h2>
+
+@using (Html.BeginForm("Filter", "Product", FormMethod.Get))
+{
+    <div class="form-group">
+        @Html.Label("Brand:")
+        @Html.TextBox("brand", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Min Price:")
+        @Html.TextBox("minPrice", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Max Price:")
+        @Html.TextBox("maxPrice", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Warranty:")
+        @Html.TextBox("warranty", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Discount:")
+        @Html.TextBox("discount", null, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Description</th>
+            <th>Model Name</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Discount Value</th>
+            <th>Discounted Price</th>
+            <th>Quantity</th>
+            <th>Category Id</th>
+            <th>Date Added</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Entities)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Description</td>
+                <td>@product.ModelName</td>
+                <td>@product.Brand</td>
+                <td>@product.Price</td>
+                <td>@product.DiscountValue</td>
+                <td>@product.DiscountedPrice</td>
+                <td>@product.Quantity</td>
+                <td>@product.CategoryId</td>
+                <td>@product.DateAdded</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

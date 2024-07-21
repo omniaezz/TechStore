@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationIcon>wwwroot\favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\order.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="Stripe.net" Version="44.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\ImageUser\" />
+    <Folder Include="wwwroot\image-Categories-slide\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TechStore.Application\TechStore.Application.csproj" />
+    <ProjectReference Include="..\TechStore.Context\TechStore.Context.csproj" />
+    <ProjectReference Include="..\TechStore.Dtos\TechStore.Dtos.csproj" />
+    <ProjectReference Include="..\TechStore.Infrastructure\TechStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\TechStore.Models\TechStore.Models.csproj" />
+  </ItemGroup>
+
+</Project>
